@@ -1,4 +1,4 @@
-# AIIDA Charts
+# AIIDA Charts Hardening
 
 ## Usage
 
