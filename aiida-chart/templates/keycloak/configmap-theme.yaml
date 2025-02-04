@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ .Release.Name }}-keycloak-theme-config
-  {{- include "aiida.keycloak.labels" . | indent 2 }}
-data:
-{{ (.Files.Glob "env/keycloak/theme/**").AsConfig | indent 2 }}

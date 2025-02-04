@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ .Release.Name }}-nanomq-config
-  {{- include "aiida.nanomq.labels" . | indent 2 }}
-data:
-{{ (.Files.Glob "env/nanomq/**").AsConfig | indent 2 }}
