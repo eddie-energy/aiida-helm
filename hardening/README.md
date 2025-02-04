@@ -11,4 +11,4 @@ Once Helm is set up properly, add the repo as follows:
 helm repo add aiida https://eddie-energy.github.io/aiida-helm/hardening
 ```
 
-You can then run `helm search aiida stable` to see the charts
+You can then run `helm search repo aiida` to see the charts
