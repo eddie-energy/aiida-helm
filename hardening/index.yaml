@@ -3,12 +3,12 @@ entries:
   aiida-chart:
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2025-02-04T15:05:11.301934695+01:00"
+    created: "2025-02-05T14:37:52.235897648+01:00"
     description: A Helm chart for the AIIDA application
     digest: e744dd794e5203af435eef4ef04fb8921c7e85dd55f8e2b55ae8828b243b6d0e
     name: aiida-chart
     type: application
     urls:
-    - https://aiida.github.io/helm-charts/hardening/packages/aiida-chart-0.1.0.tgz
+    - https://eddie-energy.github.io/helm-charts/hardening/packages/aiida-chart-0.1.0.tgz
     version: 0.1.0
-generated: "2025-02-04T15:05:11.301272936+01:00"
+generated: "2025-02-05T14:37:52.235290285+01:00"
