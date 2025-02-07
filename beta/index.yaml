@@ -3,7 +3,7 @@ entries:
   aiida:
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2025-02-07T10:20:47.200567652+01:00"
+    created: "2025-02-07T17:49:30.040120789+01:00"
     description: A Helm chart for the AIIDA application
     digest: e3991cdf7b827cc5c77d0a9d4cf8edd0ff03c426b9e35f7b7d2c97a53ec9abda
     name: aiida
@@ -13,8 +13,18 @@ entries:
     version: 0.1.0
   aiida-service-awattar:
   - apiVersion: v2
+    appVersion: 0.0.2
+    created: "2025-02-07T17:49:30.040378283+01:00"
+    description: A Helm chart for deploying the AIIDA service with the Awattar plugin
+    digest: 54a87e8749473e27939dde2ae6134c442e14fb1d0461da9f3b7111529d3774af
+    name: aiida-service-awattar
+    type: application
+    urls:
+    - https://eddie-energy.github.io/aiida-helm/beta/packages/aiida-service-awattar-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     appVersion: 0.0.1
-    created: "2025-02-07T10:20:47.20063967+01:00"
+    created: "2025-02-07T17:49:30.040280909+01:00"
     description: A Helm chart for deploying the AIIDA service with the Awattar plugin
     digest: 4e74d9f6c66d4dd58af2e9c35b71f41b35fec572d87f96d61af250cc9d6a1f18
     name: aiida-service-awattar
@@ -22,4 +32,4 @@ entries:
     urls:
     - https://eddie-energy.github.io/aiida-helm/beta/packages/aiida-service-awattar-0.1.0.tgz
     version: 0.1.0
-generated: "2025-02-07T10:20:47.200161645+01:00"
+generated: "2025-02-07T17:49:30.039504274+01:00"
