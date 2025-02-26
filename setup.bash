@@ -18,13 +18,13 @@ display_help () {
   echo -e "First enter secrets into the values file for the namespace you want to deploy to."
   echo -e "Usage: setup.bash [OPTIONS]"
   echo -e "Options:"
-  echo -e "  --help\t\t\tDisplay this help message."
-  echo -e "  --ghcr-username=<username>\tThe GitHub Container Registry username."
-  echo -e "  --ghcr-pat=<pat>\t\tThe GitHub Container Registry Personal Access Token."
-  echo -e "  --namespace=<namespace>\t\tThe namespace for the installer. Default is 'aiida'."
-  echo -e "  --services-namespace=<services-namespace>\t\tThe namespace for the services. Default is 'aiida-services'."
-  echo -e "  --track=<track>\t\tThe track to install. Default is 'stable'."
-  echo -e "  --values=<values>\t\tThe values file to use for the installation. Default is none."
+  echo -e "  --help\t\t\t\t\tDisplay this help message."
+  echo -e "  --ghcr-username=<username>\t\t\tThe GitHub Container Registry username."
+  echo -e "  --ghcr-pat=<pat>\t\t\t\tThe GitHub Container Registry Personal Access Token."
+  echo -e "  --namespace=<namespace>\t\t\tThe namespace for the installer. Default is 'aiida'."
+  echo -e "  --services-namespace=<services-namespace>\tThe namespace for the services. Default is 'aiida-services'."
+  echo -e "  --track=<track>\t\t\t\tThe track to install. Default is 'stable'."
+  echo -e "  --values=<values>\t\t\t\tThe values file to use for the installation. Default is none."
 }
 
 for arg in "$@"; do
