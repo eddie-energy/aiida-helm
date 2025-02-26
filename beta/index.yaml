@@ -3,9 +3,9 @@ entries:
   aiida:
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2025-02-26T13:56:49.016977265+01:00"
+    created: "2025-02-26T13:59:21.991886448+01:00"
     description: AIIDA Core (Administrative Interface for In-House Data Access)
-    digest: f5dffcf3de832b0fe6c255e13c8a5330152b76165a07252af156c6cd928a8cd2
+    digest: 34fb53f4f25cca79a21dffc2aa28caa86b3d8c1280ac3b028585f30e458ead86
     name: aiida
     type: application
     urls:
@@ -14,7 +14,7 @@ entries:
   aiida-installer:
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2025-02-26T13:56:49.017218497+01:00"
+    created: "2025-02-26T13:59:21.99202566+01:00"
     description: A Helm chart for the AIIDA installer
     digest: 0946a3dec1d9171f3789eef67444a1b76fb711f6910809586683e125631cdda7
     name: aiida-installer
@@ -25,7 +25,7 @@ entries:
   awattar:
   - apiVersion: v2
     appVersion: 1.0.2
-    created: "2025-02-26T13:56:49.01734127+01:00"
+    created: "2025-02-26T13:59:21.992090421+01:00"
     description: Fetches tariffs from the aWATTar API
     digest: 93e475ed212651f0f87bcead38c105e141b94e4a3e4ad78a36ee5fa2465b063e
     name: awattar
@@ -33,4 +33,4 @@ entries:
     urls:
     - https://eddie-energy.github.io/aiida-helm/beta/packages/awattar-1.0.1.tgz
     version: 1.0.1
-generated: "2025-02-26T13:56:49.016379152+01:00"
+generated: "2025-02-26T13:59:21.991453409+01:00"
