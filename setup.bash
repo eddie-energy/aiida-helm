@@ -101,5 +101,6 @@ helm repo add aiida "https://eddie-energy.github.io/aiida-helm/$TRACK" --force-u
 helm install aiida-installer \
   --namespace "$NAMESPACE" \
   --set core.services.namespace="$SERVICES_NAMESPACE" \
+  --set core.services.repositoryTrack="$TRACK" \
   --values "$VALUES" \
   aiida/aiida-installer
