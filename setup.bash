@@ -8,7 +8,6 @@ TRACK_ARG="--track"
 TRACK=${TRACK:-"stable"}
 VALUES_ARG="--values"
 VALUES=""
-NAMESPACE_ARG="--namespace"
 NAMESPACE="aiida"
 SERVICES_NAMESPACE_ARG="--services-namespace"
 SERVICES_NAMESPACE="aiida-services"
@@ -21,7 +20,6 @@ display_help () {
   echo -e "  --help\t\t\t\t\tDisplay this help message."
   echo -e "  --ghcr-username=<username>\t\t\tThe GitHub Container Registry username."
   echo -e "  --ghcr-pat=<pat>\t\t\t\tThe GitHub Container Registry Personal Access Token."
-  echo -e "  --namespace=<namespace>\t\t\tThe namespace for the installer. Default is 'aiida'."
   echo -e "  --services-namespace=<services-namespace>\tThe namespace for the services. Default is 'aiida-services'."
   echo -e "  --track=<track>\t\t\t\tThe track to install. Default is 'stable'."
   echo -e "  --values=<values>\t\t\t\tThe values file to use for the installation. Default is none."
@@ -38,9 +36,6 @@ for arg in "$@"; do
       ;;
     ${GHCR_PAT_ARG}*)
       GHCR_PAT="${arg#*=}"
-      ;;
-    ${NAMESPACE_ARG}*)
-      NAMESPACE="${arg#*=}"
       ;;
     ${SERVICES_NAMESPACE_ARG}*)
       SERVICES_NAMESPACE="${arg#*=}"
