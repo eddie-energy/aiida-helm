@@ -11,8 +11,6 @@ spec:
   template:
     metadata:
     {{- include "aiida.timescaledb.labels" . | indent 6 }}
-      annotations:
-        checksum/secret: {{ include (print $.Template.BasePath "/timescaledb/secret.yaml") . | sha256sum }}
     spec:
       terminationGracePeriodSeconds: 30
       containers:
@@ -34,12 +32,25 @@ spec:
                 secretKeyRef:
                   name: {{ .Release.Name }}-timescaledb-secret
                   key: password
+            - name: EMQX_DATABASE_PASSWORD
+              value: {{ .Values.emqx.databasePassword }}
           volumeMounts:
             - name: timescaledb-data
               mountPath: /var/lib/postgresql/data
+            - name: timescaledb-config
+              mountPath: /docker-entrypoint-initdb.d/00-replace_password_with_env.sh
+              subPath: replace-password-with-env.sh
+            - name: timescaledb-config
+              mountPath: /tmp/create-emqx-user.sql
+              subPath: create-emqx-user.sql
           readinessProbe:
             tcpSocket:
               port: timescaledb
+
+      volumes:
+        - name: timescaledb-config
+          configMap:
+            name: {{ .Release.Name }}-timescaledb-config
 
   volumeClaimTemplates:
     - metadata:
@@ -49,3 +60,4 @@ spec:
         resources:
           requests:
             storage: {{ .Values.timescaledb.storageSize }}
+

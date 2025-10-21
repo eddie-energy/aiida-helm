@@ -11,8 +11,6 @@ spec:
   template:
     metadata:
     {{- include "aiida.core.labels" . | indent 6 }}
-      annotations:
-        checksum/secret-core: {{ include (print $.Template.BasePath "/core/secret.yaml") . | sha256sum }}
     spec:
       containers:
         - name: aiida-core
@@ -23,6 +21,10 @@ spec:
           env:
             - name: SERVER_SERVLET_CONTEXT_PATH
               value: {{ .Values.core.path }}
+            - name: KEYLCOAK_REALM
+              value: "EDDIE"
+            - name: KEYLCOAK_CLIENT
+              value: "AIIDA"
             - name: SPRING_DATASOURCE_URL
               value: "{{ include "aiida.timescaledb.jdbc-url" . }}"
             - name: SPRING_DATASOURCE_USERNAME
@@ -35,17 +37,12 @@ spec:
                 secretKeyRef:
                   name: {{ .Release.Name }}-timescaledb-secret
                   key: password
-            - name: AIIDA_INSTALLER_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-core-secret
-                  key: installerToken
             - name: AIIDA_STREAMER_POLL_INTERVAL
               value: {{ .Values.core.streamerPollInterval | quote }}
             - name: AIIDA_EXTERNAL_HOST
               value: "{{ include "aiida.core.external-host" . }}"
             - name: KEYCLOAK_INTERNAL_HOST
-              value: "{{ include "aiida.keycloak.internal-host" . }}"
+              value: "{{ include "aiida.keycloak.external-host" . }}"
             - name: KEYCLOAK_EXTERNAL_HOST
               value: "{{ include "aiida.keycloak.external-host" . }}"
             - name: KEYCLOAK_CLIENT_SECRET
@@ -54,6 +51,14 @@ spec:
               value: "{{ include "aiida.emqx.internal-host" . }}"
             - name: MQTT_EXTERNAL_HOST
               value: "{{ include "aiida.emqx.external-host" . }}"
+            - name: AIIDA_CORS_ALLOWED_ORIGINS
+              value: "{{ if eq .Values.ingress.tlsEnabled true }}https{{ else }}http{{ end }}://{{ .Values.ingress.host }}"
+            - name: AIIDA_PUBLIC_URL
+              value: "{{ if eq .Values.ingress.tlsEnabled true }}https{{ else }}http{{ end }}://{{ .Values.ingress.host }}{{ .Values.core.path }}"
+            - name: MQTT_PASSWORD
+              value: {{ .Values.core.mqttPassword | quote }}
+            - name: LOGGING_LEVEL_ENERGY_EDDIE
+              value: "TRACE"
           readinessProbe:
             httpGet:
               path: {{ .Values.core.path }}/actuator/health/readiness

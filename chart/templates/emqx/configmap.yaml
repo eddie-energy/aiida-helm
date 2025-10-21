@@ -4,6 +4,35 @@ metadata:
   name: {{ .Release.Name }}-emqx-config
   {{- include "aiida.emqx.labels" . | indent 2 }}
 data:
+  replace-password-with-env.sh: |-
+    #!/bin/sh
+    set -e
+
+    if [ -z "${AIIDA_MQTT_PASSWORD}" ]; then
+      echo "Error: AIIDA_MQTT_PASSWORD environment variable is not set."
+      exit 1
+    fi
+
+    PART_TO_REPLACE="REPLACED_BY_ENV"
+    INIT_USER_FILE="/tmp/init-user.json"
+    BOOTSTRAP_FILE="/opt/emqx/data/init-user.json"
+
+    sed "s|${PART_TO_REPLACE}|${AIIDA_MQTT_PASSWORD}|g" "${INIT_USER_FILE}" > "${BOOTSTRAP_FILE}"
+
+    echo "SUCCESSFULLY REPLACED"
+
+    exec /usr/bin/docker-entrypoint.sh emqx foreground
+
+
+  init-user.json: |-
+    [
+      {
+        "user_id": "aiida",
+        "password": "REPLACED_BY_ENV",
+        "is_superuser": true
+      }
+    ]
+
   emqx.hocon: |-
     authentication = [
       {
@@ -12,19 +41,20 @@ data:
         disable_prepared_statements = false
         enable = true
         mechanism = password_based
-        username = REPLACED_WITH_ENV
-        password = REPLACED_WITH_ENV
-        password_hash_algorithm = { name = plain, salt_position = disable }
+        username = emqx
+        password = {{ .Values.core.mqttPassword }}
+        password_hash_algorithm { 
+          name = bcrypt
+        }
         pool_size = 8
-        query = """
+        query = """~
           SELECT mqtt_password AS password_hash
           FROM public.data_source
           WHERE mqtt_username = ${username}
-          LIMIT 1;
-        """
+          LIMIT 1;~"""
         server = "{{ .Release.Name }}-timescaledb:5432"
         ssl {
-          ciphers = [ ]
+          ciphers = []
           depth = 10
           enable = false
           hibernate_after = "5s"
@@ -38,6 +68,17 @@ data:
           ]
         }
       }
+      {
+        backend = built_in_database
+        mechanism = password_based
+        password_hash_algorithm {
+          name = bcrypt
+        }
+        user_id_type = username
+
+        bootstrap_file = "/opt/emqx/data/init-user.json"
+        bootstrap_type = plain
+      }
     ]
     authorization {
       cache {
@@ -46,7 +87,7 @@ data:
         max_size = 32
         ttl = "1m"
       }
-      deny_action = disconnect
+      deny_action = ignore
       no_match = deny
       sources = [
         {
@@ -54,14 +95,13 @@ data:
           database = {{ .Values.timescaledb.database }}
           disable_prepared_statements = false
           enable = true
-          username = REPLACED_WITH_ENV
-          password = REPLACED_WITH_ENV
+          username = emqx
+          password = {{ .Values.core.mqttPassword }}
           pool_size = 8
-          query = """
+          query = """~
             SELECT LOWER(action) AS action, LOWER(acl_type) AS permission, mqtt_subscribe_topic AS topic
             FROM public.data_source
-            WHERE mqtt_username = ${username};
-          """
+            WHERE mqtt_username = ${username};~"""
           server = "{{ .Release.Name }}-timescaledb:5432"
           ssl {
             ciphers = []

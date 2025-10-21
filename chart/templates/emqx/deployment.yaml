@@ -17,6 +17,7 @@ spec:
       containers:
         - name: emqx
           image: "emqx/emqx:{{ .Values.emqx.version }}"
+          command: ["/tmp/replace-password-with-env.sh"]
           ports:
             - name: mqtt-std
               containerPort: {{ .Values.emqx.stdPort }}
@@ -28,30 +29,30 @@ spec:
               containerPort: {{ .Values.emqx.dashboardPort }}
               protocol: TCP
           env:
-            - name: EMQX_AUTHENTICATION__1__USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-timescaledb-secret
-                  key: username
+            - name: AIIDA_MQTT_PASSWORD
+              value: {{ .Values.core.mqttPassword }}
+            - name: EMQX_AUTHENTICATION__1__DATABASE
+              value: {{ .Values.timescaledb.database }}
+            - name: EMQX_AUTHENTICATION__1__SERVER
+              value: {{ .Release.Name }}-timescaledb:{{ .Values.timescaledb.port }}
             - name: EMQX_AUTHENTICATION__1__PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-timescaledb-secret
-                  key: password
-            - name: EMQX_AUTHORIZATION__SOURCES__1__USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-timescaledb-secret
-                  key: username
+              value: {{ .Values.emqx.databasePassword }}
+            - name: EMQX_AUTHORIZATION__SOURCES__1__DATABASE
+              value: {{ .Values.timescaledb.database }}
+            - name: EMQX_AUTHORIZATION__SOURCES__1__SERVER
+              value: {{ .Release.Name }}-timescaledb:{{ .Values.timescaledb.port }}
             - name: EMQX_AUTHORIZATION__SOURCES__1__PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-timescaledb-secret
-                  key: password
+              value: {{ .Values.emqx.databasePassword }}
           volumeMounts:
             - name: emqx-config
               mountPath: /opt/emqx/etc/base.hocon
               subPath: emqx.hocon
+            - name: emqx-config
+              mountPath: /tmp/init-user.json
+              subPath: init-user.json
+            - name: emqx-config
+              mountPath: /tmp/replace-password-with-env.sh
+              subPath: replace-password-with-env.sh
           readinessProbe:
             tcpSocket:
               port: mqtt-std
@@ -60,3 +61,4 @@ spec:
         - name: emqx-config
           configMap:
             name: {{ .Release.Name }}-emqx-config
+            defaultMode: 0755

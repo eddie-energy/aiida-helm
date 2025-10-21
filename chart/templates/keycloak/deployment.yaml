@@ -19,7 +19,7 @@ spec:
       containers:
         - name: keycloak
           image: "quay.io/keycloak/keycloak:{{ .Values.keycloak.version }}"
-          args: ["-v", "start", "--import-realm"]
+          args: ["-v", "start", "--import-realm", "--log-level=DEBUG"]
           ports:
             - name: keycloak
               containerPort: {{ .Values.keycloak.port }}

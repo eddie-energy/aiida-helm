@@ -4,3 +4,8 @@ description: AIIDA Core (Administrative Interface for In-House Data Access)
 type: application
 version: 0.1.0
 appVersion: "0.0.1"
+
+dependencies:
+  - name: sealed-secrets
+    version: "2.16.1"
+    repository: "https://bitnami-labs.github.io/sealed-secrets"
