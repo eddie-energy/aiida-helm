@@ -37,6 +37,12 @@ for arg in "$@"; do
     ${GHCR_PAT_ARG}*)
       GHCR_PAT="${arg#*=}"
       ;;
+    ${TRACK_ARG}*)
+      TRACK="${arg#*=}"
+      ;;
+    ${VALUES_ARG}*)
+      VALUES="${arg#*=}"
+      ;;
     ${SERVICES_NAMESPACE_ARG}*)
       SERVICES_NAMESPACE="${arg#*=}"
       ;;
