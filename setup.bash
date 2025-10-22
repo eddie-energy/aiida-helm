@@ -55,8 +55,8 @@ fi
 ### INSTALL K3S
 curl -sfL https://get.k3s.io | sh -
 mkdir -p ~/.kube
+sudo chmod 644 /etc/rancher/k3s/k3s.yaml
 sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
-chmod 600 ~/.kube/config
 
 export KUBECONFIG=~/.kube/config
 
